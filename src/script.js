@@ -18,6 +18,10 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
+// fog
+const fog = new THREE.Fog(0x000000, 1, 30);
+scene.fog = fog;
+
 // Loaders
 const loader = new GLTFLoader();
 
@@ -26,6 +30,8 @@ const loader = new GLTFLoader();
 loader.load("models/pirate_ship_1/scene.gltf", (gltf) => {
   //   console.log(gltf);
   gltf.scene.scale.set(0.001, 0.001, 0.001);
+  gltf.scene.position.y = Math.sin(2);
+  gltf.scene.castShadow = true;
 
   scene.add(gltf.scene);
 });
@@ -34,7 +40,7 @@ loader.load("models/pirate_ship_1/scene.gltf", (gltf) => {
  * Water
  */
 // Geometry
-const waterGeometry = new THREE.PlaneBufferGeometry(3, 3, 512, 512);
+const waterGeometry = new THREE.PlaneBufferGeometry(2, 2, 512, 512);
 
 // Colors
 debugObject.depthColor = "#2880b1";
@@ -138,10 +144,11 @@ const water = new THREE.Mesh(waterGeometry, waterMaterial);
 water.scale.set(10, 10);
 water.rotation.x = -Math.PI * 0.5;
 water.position.y = -1;
+water.receiveShadow = true;
 scene.add(water);
 
 // Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+const ambientLight = new THREE.AmbientLight(0xffffff, 3);
 scene.add(ambientLight);
 
 /**
@@ -164,6 +171,7 @@ window.addEventListener("resize", () => {
   // Update renderer
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
 });
 
 /**
@@ -176,7 +184,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.set(-2, 7, 7);
+camera.position.set(3, 3, 5);
 scene.add(camera);
 
 // Controls
