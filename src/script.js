@@ -19,7 +19,8 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 // fog
-const fog = new THREE.Fog(0x000000, 1, 30);
+const fog = new THREE.Fog(0x2880b1, 1, 10);
+fog.density = 2;
 scene.fog = fog;
 
 // Loaders
@@ -31,6 +32,7 @@ loader.load("models/pirate_ship_1/scene.gltf", (gltf) => {
   //   console.log(gltf);
   gltf.scene.scale.set(0.001, 0.001, 0.001);
   gltf.scene.position.y = Math.sin(2);
+  gltf.scene.position.z = 2;
   gltf.scene.castShadow = true;
 
   scene.add(gltf.scene);
@@ -141,15 +143,20 @@ gui
 
 // Mesh
 const water = new THREE.Mesh(waterGeometry, waterMaterial);
-water.scale.set(10, 10);
+water.scale.set(20, 20);
 water.rotation.x = -Math.PI * 0.5;
 water.position.y = -1;
 water.receiveShadow = true;
 scene.add(water);
 
 // Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+const ambientLight = new THREE.AmbientLight(0xffffff, 2);
 scene.add(ambientLight);
+
+// directional light
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(-1, 2, 4);
+scene.add(directionalLight);
 
 /**
  * Sizes
@@ -201,7 +208,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x45a5e3, 1);
+renderer.setClearColor(0x2880b1, 1);
 
 /**
  * Animate
