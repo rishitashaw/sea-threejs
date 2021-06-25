@@ -2,6 +2,7 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 // Debug
 const gui = new dat.GUI();
@@ -12,13 +13,20 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
-// Lights
+// Loaders
+const loader = new GLTFLoader();
 
-const pointLight = new THREE.PointLight(0xffffff, 0.1);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
-scene.add(pointLight);
+// Loading scene
+
+loader.load("models/pirate_ship_1/scene.gltf", (gltf) => {
+  console.log(gltf);
+  gltf.scene.scale.set(0.001, 0.001, 0.001);
+  scene.add(gltf.scene);
+});
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+scene.add(ambientLight);
 
 /**
  * Sizes
@@ -52,9 +60,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.x = 0;
-camera.position.y = 0;
-camera.position.z = 2;
+camera.position.set(-2, 7, 7);
 scene.add(camera);
 
 // Controls

@@ -68,7 +68,7 @@ module.exports = {
       },
       //gltf loaders
       {
-        test: /\.(gltf)$/,
+        test: /\.(glb|gltf)$/,
         use: "raw-loader",
       },
     ],
