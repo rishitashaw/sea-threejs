@@ -66,10 +66,10 @@ module.exports = {
           },
         ],
       },
-      //gltf loaders
+      //shaders
       {
-        test: /\.(glb|gltf)$/,
-        use: "raw-loader",
+        test: /\.(glsl)$/,
+        loader: "raw-loader",
       },
     ],
   },
